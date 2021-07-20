@@ -42,13 +42,8 @@ with open('information.csv', 'w') as out: # creating the csv file, allowing file
 
 dataframe = pd.read_csv("information.csv") # turns the csv file into dataframe format
 
-question = int(input("sort by alphabetical or year, 1/2: ")) # asks user how they would like to sort the data
-
-if question == 1:
-    sorted_dataframe = dataframe.sort_values(by=['Author Name'] , ascending = True)
-else:
-    sorted_dataframe = dataframe.sort_values(by=['Published Date'] , ascending = False)
-    
+sorted_dataframe = dataframe.sort_values(by=['Author Name', 'Published Date'] , ascending = True)
+   
 sorted_dataframe.to_csv('information.csv', index=False) # rewrites the csv in orderd file, in dataframe format ready to be put exported to excel. (Index is off since this would index every input).
 
 
