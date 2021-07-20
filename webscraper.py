@@ -3,6 +3,7 @@ import csv
 import datetime
 import pandas as pd # will need to pip install.
 from selenium.common.exceptions import NoSuchElementException
+import xlwt
 
 driver = webdriver.Chrome('/Users/dianacrabtree/Downloads/chromedriver') # MacOS Path was bugging, so had to specify location of chrome driver
 
@@ -46,9 +47,15 @@ sorted_dataframe = dataframe.sort_values(by=['Author Name', 'Published Date'] , 
    
 sorted_dataframe.to_csv('information.csv', index=False) # rewrites the csv in orderd file, in dataframe format ready to be put exported to excel. (Index is off since this would index every input).
 
+wb = xlwt.Workbook()
+sh = wb.add_sheet('information')
 
-read_file = pd.read_csv('information.csv') # reads the csv file.
-read_file.to_excel('information.xlsx', index= None, header = True) # exports csv to excel file of same name, index none since this would create an index for every item, header true since this get the headers to contine from csv to excel.
+with open('information.csv', 'r') as f:
+    reader = csv.reader(f)
+    for r,row in enumerate(reader):
+        for c,val in enumerate(row):
+            sh.write(r,c,val)
 
+wb.save('information.xls')
 
 driver.close() # closes driver (web page) once all is complete
